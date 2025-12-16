@@ -71,10 +71,10 @@ Visit http://localhost:3000
 
 ### Google OAuth Setup
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
+1. Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
 2. Create a new project or select existing
-3. Enable Google+ API
-4. Create OAuth 2.0 credentials
+3. Configure the OAuth consent screen
+4. Create OAuth 2.0 credentials (Web application)
 5. Add authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
 6. Copy Client ID and Client Secret to your `.env` files
 
@@ -117,7 +117,7 @@ grep -r "DELETE" --include="*.ts" --include="*.tsx" apps packages
 ```
 
 After deleting example code:
-1. Run `pnpm --filter @starter/backend drizzle:push` to sync schema
+1. Run `pnpm --filter @starter/backend db:push` to sync schema
 2. Run `pnpm biome check --write .` to clean up unused imports
 3. Run `pnpm --filter @starter/web typecheck` to verify no broken references
 
@@ -127,17 +127,20 @@ After deleting example code:
 
 1. Create a new Railway project at https://railway.app
 2. Add a PostgreSQL database
-3. Connect your GitHub repository
-4. Set the root directory to `apps/web`
+3. Connect your GitHub repository (Railway auto-detects the monorepo)
+4. Configure watch paths to include relevant packages (see below)
 5. Add environment variables (see below)
 6. Deploy
 
-### Using Railway CLI
+### Watch Paths
 
-```bash
-cd apps/web
-railway init
-railway up
+Configure these watch paths in Railway to trigger deployments when relevant code changes:
+
+```
+/apps/web/**
+/packages/backend/**
+/packages/ui/**
+/packages/logger/**
 ```
 
 ### Environment Variables
@@ -148,34 +151,29 @@ Set these in your Railway project:
 |----------|-------------|
 | `DATABASE_URL` | PostgreSQL connection string (from Railway Postgres) |
 | `BETTER_AUTH_SECRET` | Random secret for auth (generate with `openssl rand -base64 32`) |
-| `BETTER_AUTH_URL` | Your production URL (e.g., `https://your-app.railway.app`) |
+| `BETTER_AUTH_URL` | Your production URL for auth callbacks (e.g., `https://your-app.railway.app`) |
 | `GOOGLE_CLIENT_ID` | Google OAuth client ID |
 | `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
-| `TRUSTED_ORIGINS` | Your production domain (e.g., `https://your-app.railway.app`) |
-| `BASE_URL` | Same as `BETTER_AUTH_URL` |
+| `TRUSTED_ORIGINS` | Allowed CORS origins, comma-separated (e.g., `https://your-app.railway.app`) |
+| `BASE_URL` | Your app's public URL (e.g., `https://your-app.railway.app`) |
+
+### Database Migrations
+
+Migrations are not run automatically on deploy. Before your first deployment (and after schema changes), run migrations manually:
+
+```bash
+# Set up production env file
+cp packages/backend/.env packages/backend/.env.prod
+# Edit .env.prod with your Railway DATABASE_URL
+
+# Run migrations against production
+pnpm --filter @starter/backend db:migrate:prod
+```
 
 ### Production Google OAuth
 
 Update your Google Cloud Console OAuth credentials:
 - Add authorized redirect URI: `https://your-app.railway.app/api/auth/callback/google`
-
-### Local Docker Testing
-
-Test the production build locally before deploying:
-
-```bash
-cd apps/web
-docker compose up --build
-# Visit http://localhost:3000
-```
-
-### Troubleshooting
-
-**Docker credential error:**
-```bash
-jq 'del(.credsStore)' ~/.docker/config.json > ~/.docker/config.json.tmp
-mv ~/.docker/config.json.tmp ~/.docker/config.json
-```
 
 ## Tech Stack
 
