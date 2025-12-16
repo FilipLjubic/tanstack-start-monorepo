@@ -1,3 +1,12 @@
+/**
+ * CUSTOMIZE: Landing page - replace this content with your own
+ *
+ * This page includes:
+ * - SetupChecklist component (delete after setup is complete)
+ * - Example feature cards (replace with your own content)
+ * - Placeholder GitHub link (update to your repo)
+ */
+
 import { Button } from '@starter/ui/components/shadcn/button';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { SetupChecklist } from '@/components/setup-checklist';

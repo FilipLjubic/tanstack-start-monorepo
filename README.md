@@ -54,12 +54,12 @@ cp packages/backend/env.example packages/backend/.env
 
 4. Start local Supabase:
 ```bash
-pnpm --filter @starter/backend supabase:start
+pnpm --filter @starter/backend db:start
 ```
 
 5. Run database migrations:
 ```bash
-pnpm --filter @starter/backend drizzle:push
+pnpm --filter @starter/backend db:push
 ```
 
 6. Start the development server:
@@ -84,13 +84,15 @@ Visit http://localhost:3000
 
 ```bash
 # Development
-pnpm --filter @starter/web dev          # Start web dev server
-pnpm --filter @starter/backend supabase:start   # Start local Supabase
+pnpm --filter @starter/web dev        # Start web dev server
+pnpm --filter @starter/backend db:start   # Start local Supabase
 
 # Database
-pnpm --filter @starter/backend drizzle:generate  # Generate migrations
-pnpm --filter @starter/backend drizzle:push      # Push schema changes
-pnpm --filter @starter/backend drizzle:studio    # Open Drizzle Studio
+pnpm --filter @starter/backend db:generate  # Generate migrations
+pnpm --filter @starter/backend db:push      # Push schema changes
+pnpm --filter @starter/backend db:studio    # Open Drizzle Studio
+pnpm --filter @starter/backend db:seed      # Seed database with test data
+pnpm --filter @starter/backend db:reset     # Reset DB, run migrations, and seed
 
 # Code Quality
 pnpm biome check --write .              # Lint and format
@@ -104,7 +106,20 @@ The starter includes:
 - **session** - User sessions
 - **account** - OAuth provider accounts
 - **verification** - Email verification tokens
-- **note** - Example table for CRUD operations (delete when building your own features)
+- **note** - Example table for CRUD operations (deletable)
+
+## Removing Example Code
+
+The starter includes a Notes CRUD example to demonstrate the patterns. Search for `DELETE` in the project to find all example code that can be removed:
+
+```bash
+grep -r "DELETE" --include="*.ts" --include="*.tsx" apps packages
+```
+
+After deleting example code:
+1. Run `pnpm --filter @starter/backend drizzle:push` to sync schema
+2. Run `pnpm biome check --write .` to clean up unused imports
+3. Run `pnpm --filter @starter/web typecheck` to verify no broken references
 
 ## Railway Deployment
 

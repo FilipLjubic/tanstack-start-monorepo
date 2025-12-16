@@ -1,6 +1,7 @@
 /// <reference types="vite/client" />
 
 import { Toaster } from '@starter/ui/components/shadcn/sonner';
+import { TanStackDevtools } from '@tanstack/react-devtools';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import {
   createRootRouteWithContext,
@@ -41,7 +42,8 @@ const RootDocument = ({ children }: Readonly<{ children: ReactNode }>) => {
           closeButton
           richColors
         />
-        <ReactQueryDevtools buttonPosition="bottom-left" />
+        <ReactQueryDevtools buttonPosition="top-right" />
+        <TanStackDevtools config={{ position: 'bottom-right' }} />
         <Scripts />
       </body>
     </html>

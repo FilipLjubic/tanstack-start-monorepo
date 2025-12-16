@@ -2,6 +2,8 @@
 
 This directory contains service modules for the application.
 
+Search for `DELETE` in the project to find example code that can be removed.
+
 ## Current Structure
 
 ```
@@ -9,13 +11,15 @@ services/
 ├── auth/              # Authentication & user management
 │   ├── types.ts       # Auth type exports
 │   └── user/          # User operations
-│       ├── delete.ts  # Delete user
+│       ├── delete.ts  # Delete user account
 │       └── get.ts     # Get user by id
-└── note/              # EXAMPLE: Note CRUD (delete when building your own)
-    ├── types.ts       # Note type exports
-    ├── create.ts      # Create note
-    ├── delete.ts      # Delete note
-    └── list.ts        # List user notes
+├── health/            # Health check endpoint
+│   └── check.ts       # Database health check
+└── note/              # Example CRUD (deletable)
+    ├── types.ts
+    ├── create.ts
+    ├── delete.ts
+    └── list.ts
 ```
 
 ## Usage
