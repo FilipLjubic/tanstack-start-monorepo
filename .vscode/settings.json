@@ -26,8 +26,6 @@
   "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [{ "mode": "auto" }],
   "eslint.run": "onSave",
-
-  // Reduce background CPU by limiting file watchers and TS project diagnostics
   "files.watcherExclude": {
     "**/.git/**": true,
     "**/node_modules/**": true,
@@ -43,9 +41,7 @@
     "**/.parcel-cache/**": true,
     "**/.vite/**": true,
     "**/coverage/**": true,
-    "**/apps/platform/examples/**": true,
-    "**/apps/**/public/**": true,
-    "**/packages/scraper/data/**": true
+    "**/apps/**/public/**": true
   },
   "search.exclude": {
     "**/node_modules": true,
@@ -61,9 +57,7 @@
     "**/.parcel-cache": true,
     "**/.vite": true,
     "**/coverage": true,
-    "**/apps/platform/examples": true,
-    "**/apps/**/public": true,
-    "**/packages/scraper/data": true
+    "**/apps/**/public": true
   },
   "typescript.tsserver.experimental.enableProjectDiagnostics": false,
   "typescript.tsserver.watchOptions": {

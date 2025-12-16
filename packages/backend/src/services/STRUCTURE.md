@@ -6,24 +6,28 @@ This directory contains service modules for the application.
 
 ```
 services/
-└── auth/              # Authentication & user management
-    ├── types.ts       # Auth type exports
-    └── user/          # User operations
-        ├── delete.ts  # Delete user
-        └── get.ts     # Get user by id
+├── auth/              # Authentication & user management
+│   ├── types.ts       # Auth type exports
+│   └── user/          # User operations
+│       ├── delete.ts  # Delete user
+│       └── get.ts     # Get user by id
+└── note/              # EXAMPLE: Note CRUD (delete when building your own)
+    ├── types.ts       # Note type exports
+    ├── create.ts      # Create note
+    ├── delete.ts      # Delete note
+    └── list.ts        # List user notes
 ```
 
 ## Usage
 
 ```typescript
-// Get a user
 import { getUser } from '@starter/backend/services/auth/user/get';
-
-// Delete user
 import { deleteUser } from '@starter/backend/services/auth/user/delete';
-
-// Types
 import type { User } from '@starter/backend/services/auth/types';
+
+import { listNotes } from '@starter/backend/services/note/list';
+import { createNote } from '@starter/backend/services/note/create';
+import type { Note } from '@starter/backend/services/note/types';
 ```
 
 ## Adding New Domains
@@ -32,14 +36,13 @@ Follow this pattern for new features:
 
 ```
 services/
-  notes/
+  posts/
     types.ts
-    note/
-      create.ts
-      get.ts
-      update.ts
-      delete.ts
-      list.ts
+    create.ts
+    get.ts
+    update.ts
+    delete.ts
+    list.ts
 ```
 
 ## Design Principles

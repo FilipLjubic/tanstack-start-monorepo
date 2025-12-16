@@ -67,6 +67,16 @@ export const verification = pgTable('verification', {
     .notNull(),
 }).enableRLS();
 
+/**
+ * EXAMPLE: Note table - DELETE when building your own features
+ *
+ * This table demonstrates the schema pattern. To remove:
+ * 1. Delete this table definition
+ * 2. Run `pnpm --filter @starter/backend drizzle:push` to sync
+ * 3. Delete packages/backend/src/services/note/ directory
+ * 4. Delete apps/web/src/server/note/ directory
+ * 5. Update the dashboard to remove notes example
+ */
 export const note = pgTable('note', {
   id: text()
     .primaryKey()

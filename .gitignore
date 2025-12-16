@@ -94,5 +94,3 @@ apps/*/node_modules/
 .tanstack/
 .nitro/
 .output
-
-vibe-coding-platform/

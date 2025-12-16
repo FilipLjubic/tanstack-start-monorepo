@@ -104,24 +104,63 @@ The starter includes:
 - **session** - User sessions
 - **account** - OAuth provider accounts
 - **verification** - Email verification tokens
-- **note** - Example table for CRUD operations
+- **note** - Example table for CRUD operations (delete when building your own features)
 
-## Deployment
+## Railway Deployment
 
-### Railway
+### Quick Start
 
-1. Create a new Railway project
+1. Create a new Railway project at https://railway.app
 2. Add a PostgreSQL database
 3. Connect your GitHub repository
-4. Set environment variables:
-   - `DATABASE_URL` - PostgreSQL connection string
-   - `BETTER_AUTH_SECRET` - Random secret for auth
-   - `BETTER_AUTH_URL` - Your production URL
-   - `GOOGLE_CLIENT_ID` - Google OAuth client ID
-   - `GOOGLE_CLIENT_SECRET` - Google OAuth secret
-   - `TRUSTED_ORIGINS` - Your production domain
+4. Set the root directory to `apps/web`
+5. Add environment variables (see below)
+6. Deploy
 
-See [docs/RAILWAY_DEPLOYMENT.md](docs/RAILWAY_DEPLOYMENT.md) for detailed instructions.
+### Using Railway CLI
+
+```bash
+cd apps/web
+railway init
+railway up
+```
+
+### Environment Variables
+
+Set these in your Railway project:
+
+| Variable | Description |
+|----------|-------------|
+| `DATABASE_URL` | PostgreSQL connection string (from Railway Postgres) |
+| `BETTER_AUTH_SECRET` | Random secret for auth (generate with `openssl rand -base64 32`) |
+| `BETTER_AUTH_URL` | Your production URL (e.g., `https://your-app.railway.app`) |
+| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
+| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
+| `TRUSTED_ORIGINS` | Your production domain (e.g., `https://your-app.railway.app`) |
+| `BASE_URL` | Same as `BETTER_AUTH_URL` |
+
+### Production Google OAuth
+
+Update your Google Cloud Console OAuth credentials:
+- Add authorized redirect URI: `https://your-app.railway.app/api/auth/callback/google`
+
+### Local Docker Testing
+
+Test the production build locally before deploying:
+
+```bash
+cd apps/web
+docker compose up --build
+# Visit http://localhost:3000
+```
+
+### Troubleshooting
+
+**Docker credential error:**
+```bash
+jq 'del(.credsStore)' ~/.docker/config.json > ~/.docker/config.json.tmp
+mv ~/.docker/config.json.tmp ~/.docker/config.json
+```
 
 ## Tech Stack
 

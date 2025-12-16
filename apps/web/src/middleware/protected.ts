@@ -33,17 +33,12 @@ export const protectedMiddleware = createMiddleware({ type: 'function' })
   .server(({ next, context }) => {
     const user = context.user;
 
-    // Check if user is authenticated
     if (!user) {
-      console.log(
-        '🚫 [Protected] User not authenticated, redirecting to login'
-      );
       throw redirect({
         to: '/auth/login',
       });
     }
 
-    // console.log(`✅ [Protected] Authenticated user allowed: ${user.name}`);
     return next({
       context: {
         user, // Pass through the authenticated user (non-null)
