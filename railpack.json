@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schema.railpack.com",
+  "provider": "node",
+  "caches": {
+    "pnpm-store": {
+      "directory": "/root/.local/share/pnpm/store/v3",
+      "type": "shared"
+    },
+    "vite-cache": {
+      "directory": "/app/apps/web/node_modules/.vite",
+      "type": "shared"
+    },
+    "node-cache": {
+      "directory": "/app/apps/web/node_modules/.cache",
+      "type": "shared"
+    }
+  },
+  "steps": {
+    "build": {
+      "commands": ["pnpm --filter @starter/web build"],
+      "caches": ["pnpm-store", "vite-cache", "node-cache"]
+    }
+  },
+  "deploy": {
+    "startCommand": "node apps/web/.output/server/index.mjs"
+  }
+}

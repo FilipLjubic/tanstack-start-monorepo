@@ -1,0 +1,23 @@
+{
+  "name": "@starter/tsconfig",
+  "version": "1.0.0",
+  "description": "Shared TypeScript configurations for the monorepo",
+  "exports": {
+    "./*": "./src/*.json"
+  },
+  "files": [
+    "src/*.json"
+  ],
+  "scripts": {
+    "tsc:init": "tsc --init"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  },
+  "keywords": [
+    "typescript",
+    "tsconfig",
+    "monorepo"
+  ]
+}

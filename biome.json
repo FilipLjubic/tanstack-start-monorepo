@@ -1,0 +1,111 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "extends": [],
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "includes": [
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.json",
+      "!**/routeTree.gen.ts",
+      "!**/components/ui",
+      "!**/node_modules",
+      "!**/dist",
+      "!**/build",
+      "!**/.next",
+      "!**/.turbo",
+      "!**/.tanstack",
+      "!**/.vercel",
+      "!**/.vite",
+      "!**/.output",
+      "!**/out",
+      "!**/coverage",
+      "!apps/**/public",
+      "!apps/**/examples",
+      "!pnpm-workspace.yaml",
+      "!scripts"
+    ]
+  },
+  "linter": {
+    "rules": {
+      "performance": {
+        "noImgElement": "off",
+        "noNamespaceImport": "warn"
+      },
+      "suspicious": {
+        "noConsole": "off"
+      },
+      "style": {
+        "useFilenamingConvention": "warn"
+      },
+      "correctness": {
+        "noUnusedVariables": {
+          "level": "error",
+          "options": {
+            "ignoreRestSiblings": true
+          }
+        }
+      },
+      "nursery": {
+        "useSortedClasses": {
+          "level": "warn",
+          "fix": "safe",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["clsx", "cva", "tw", "tw.*"]
+          }
+        }
+      },
+      "complexity": "off"
+    }
+  },
+  "overrides": [
+    {
+      "includes": ["apps/*/src/routes/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["packages/ui/src/components/shadcn/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useSemanticElements": "off",
+            "useFocusableInteractive": "off",
+            "useAriaPropsForRole": "off",
+            "useKeyWithClickEvents": "off"
+          },
+          "performance": {
+            "noNamespaceImport": "off"
+          },
+          "suspicious": {
+            "noDocumentCookie": "off"
+          }
+        }
+      }
+    }
+  ],
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "attributePosition": "multiline",
+    "bracketSameLine": false
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "double",
+      "trailingCommas": "es5"
+    }
+  }
+}

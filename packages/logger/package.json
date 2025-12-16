@@ -1,0 +1,27 @@
+{
+  "name": "@starter/logger",
+  "version": "1.0.0",
+  "description": "Shared logger package using pino",
+  "keywords": [
+    "logger",
+    "pino",
+    "logging"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "pino": "catalog:",
+    "pino-pretty": "catalog:"
+  },
+  "devDependencies": {
+    "@starter/tsconfig": "workspace:*",
+    "@types/node": "catalog:",
+    "typescript": "catalog:"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "tanstack-monorepo-starter",
+  "version": "1.0.0",
+  "description": "TanStack monorepo starter with TanStack Start, Better Auth, Drizzle, and Railway deployment",
+  "scripts": {
+    "dev": "pnpm --filter @starter/web dev",
+    "test": "vitest run",
+    "lint": "pnpm exec biome check --write"
+  },
+  "author": "",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "node": "22.18.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "catalog:",
+    "dotenv-cli": "catalog:",
+    "tsx": "catalog:",
+    "vitest": "catalog:"
+  }
+}
