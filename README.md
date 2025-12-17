@@ -129,15 +129,16 @@ After deleting example code:
 ### One-Click Deploy (Recommended)
 
 1. Click **Deploy on Railway** button (or use the Railway template)
-2. Enter your `DATABASE_URL` (PostgreSQL connection string)
-3. Wait for deployment to complete
-4. Generate a public domain: Service Settings > Networking > Generate Domain
+2. Wait for deployment to complete
+3. Generate a public domain: Service Settings > Networking > Generate Domain
+4. Add your `DATABASE_URL` in Railway variables, then redeploy
+5. Run migrations (see below)
 
-That's it! Railway automatically configures all other environment variables (`BETTER_AUTH_SECRET`, `BASE_URL`, `BETTER_AUTH_URL`, `TRUSTED_ORIGINS`) when you generate the public URL.
+Railway automatically configures `BETTER_AUTH_SECRET`, `BASE_URL`, `BETTER_AUTH_URL`, and `TRUSTED_ORIGINS` when you generate the public URL.
 
 ### Database Options
 
-You'll need a PostgreSQL database URL before deploying:
+You'll need a PostgreSQL database:
 
 - **[Supabase](https://supabase.com)** - Free tier available, includes auth/storage extras
 - **[Neon](https://neon.tech)** - Serverless Postgres, generous free tier
