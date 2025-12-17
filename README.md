@@ -128,20 +128,9 @@ After deleting example code:
 1. Create a new Railway project at https://railway.app
 2. Add a PostgreSQL database
 3. Connect your GitHub repository (Railway auto-detects the monorepo)
-4. Configure watch paths to include relevant packages (see below)
-5. Add environment variables (see below)
-6. Deploy
-
-### Watch Paths
-
-Configure these watch paths in Railway to trigger deployments when relevant code changes:
-
-```
-/apps/web/**
-/packages/backend/**
-/packages/ui/**
-/packages/logger/**
-```
+4. Add environment variables (see below)
+5. Deploy
+6. Generate a public domain: Go to service settings > Networking > Generate Domain
 
 ### Environment Variables
 
