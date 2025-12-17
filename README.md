@@ -135,13 +135,22 @@ After deleting example code:
 5. Deploy
 6. Generate a public domain: Go to service settings > Networking > Generate Domain
 
+### Database
+
+You'll need a PostgreSQL database URL ready before deploying. Options:
+
+- **[Supabase](https://supabase.com)** - Free tier available, includes auth/storage extras
+- **[Neon](https://neon.tech)** - Serverless Postgres, generous free tier
+- **[Railway Postgres](https://railway.app)** - Add as separate service in your project
+- **Self-hosted** - Any Postgres-compatible database
+
 ### Environment Variables
 
 Set these in your Railway project:
 
 | Variable | Description |
 |----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string (from Railway Postgres) |
+| `DATABASE_URL` | PostgreSQL connection string |
 | `BETTER_AUTH_SECRET` | Random secret for auth (generate with `openssl rand -base64 32`) |
 | `BETTER_AUTH_URL` | Your production URL for auth callbacks (e.g., `https://your-app.railway.app`) |
 | `GOOGLE_CLIENT_ID` | Google OAuth client ID |
