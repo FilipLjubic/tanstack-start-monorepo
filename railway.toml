@@ -1,2 +1,2 @@
 [build]
-watchPatterns = ["/apps/web/**", "/packages/backend/**", "/packages/ui/**", "/packages/logger/**", "/packages/tsconfig/**"]
+watchPatterns = ["/apps/web/**", "/packages/**"]
