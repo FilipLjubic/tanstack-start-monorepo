@@ -126,55 +126,52 @@ After deleting example code:
 
 ## Railway Deployment
 
-### Quick Start
+### One-Click Deploy (Recommended)
 
-1. Create a new Railway project at https://railway.app
-2. Add a PostgreSQL database
-3. Connect your GitHub repository (Railway auto-detects the monorepo)
-4. Add environment variables (see below)
-5. Deploy
-6. Generate a public domain: Go to service settings > Networking > Generate Domain
+1. Click **Deploy on Railway** button (or use the Railway template)
+2. Enter your `DATABASE_URL` (PostgreSQL connection string)
+3. Wait for deployment to complete
+4. Generate a public domain: Service Settings > Networking > Generate Domain
 
-### Database
+That's it! Railway automatically configures all other environment variables (`BETTER_AUTH_SECRET`, `BASE_URL`, `BETTER_AUTH_URL`, `TRUSTED_ORIGINS`) when you generate the public URL.
 
-You'll need a PostgreSQL database URL ready before deploying. Options:
+### Database Options
+
+You'll need a PostgreSQL database URL before deploying:
 
 - **[Supabase](https://supabase.com)** - Free tier available, includes auth/storage extras
 - **[Neon](https://neon.tech)** - Serverless Postgres, generous free tier
 - **[Railway Postgres](https://railway.app)** - Add as separate service in your project
 - **Self-hosted** - Any Postgres-compatible database
 
-### Environment Variables
+### Post-Deploy Setup
 
-Set these in your Railway project:
+1. **Run migrations** against your production database:
+   ```bash
+   cp packages/backend/.env packages/backend/.env.prod
+   # Edit .env.prod with your production DATABASE_URL
+   pnpm --filter @starter/backend db:migrate:prod
+   ```
 
-| Variable | Description |
-|----------|-------------|
-| `DATABASE_URL` | PostgreSQL connection string |
-| `BETTER_AUTH_SECRET` | Random secret for auth (generate with `openssl rand -base64 32`) |
-| `BETTER_AUTH_URL` | Your production URL for auth callbacks (e.g., `https://your-app.railway.app`) |
-| `GOOGLE_CLIENT_ID` | Google OAuth client ID |
-| `GOOGLE_CLIENT_SECRET` | Google OAuth client secret |
-| `TRUSTED_ORIGINS` | Allowed CORS origins, comma-separated (e.g., `https://your-app.railway.app`) |
-| `BASE_URL` | Your app's public URL (e.g., `https://your-app.railway.app`) |
+2. **Configure Google OAuth** (optional):
+   - Go to [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
+   - Create a new project or select existing
+   - Configure the OAuth consent screen
+   - Create OAuth 2.0 credentials (Web application)
+   - Add authorized redirect URI: `https://your-app.railway.app/api/auth/callback/google`
+   - Add `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` in Railway variables
 
-### Database Migrations
+### Environment Variables Reference
 
-Migrations are not run automatically on deploy. Before your first deployment (and after schema changes), run migrations manually:
-
-```bash
-# Set up production env file
-cp packages/backend/.env packages/backend/.env.prod
-# Edit .env.prod with your Railway DATABASE_URL
-
-# Run migrations against production
-pnpm --filter @starter/backend db:migrate:prod
-```
-
-### Production Google OAuth
-
-Update your Google Cloud Console OAuth credentials:
-- Add authorized redirect URI: `https://your-app.railway.app/api/auth/callback/google`
+| Variable | Auto-configured | Description |
+|----------|-----------------|-------------|
+| `DATABASE_URL` | No | PostgreSQL connection string (you provide this) |
+| `BETTER_AUTH_SECRET` | Yes | Auto-generated on deploy |
+| `BASE_URL` | Yes | Set when you generate public domain |
+| `BETTER_AUTH_URL` | Yes | Set when you generate public domain |
+| `TRUSTED_ORIGINS` | Yes | Set when you generate public domain |
+| `GOOGLE_CLIENT_ID` | No | Google OAuth client ID (optional) |
+| `GOOGLE_CLIENT_SECRET` | No | Google OAuth client secret (optional) |
 
 ## Tech Stack
 
