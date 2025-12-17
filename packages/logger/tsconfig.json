@@ -1,7 +1,6 @@
 {
   "extends": "@starter/tsconfig/library",
   "compilerOptions": {
-    "noEmit": true,
     "baseUrl": "./src"
   }
 }

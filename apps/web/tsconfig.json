@@ -6,7 +6,6 @@
     "paths": {
       "@/*": ["./*"]
     },
-    "noEmit": true,
     "allowImportingTsExtensions": true
   },
   "exclude": [

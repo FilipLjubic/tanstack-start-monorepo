@@ -1,9 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "module": "nodenext",
-    "target": "esnext",
-    "lib": ["esnext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "target": "es2022",
+    "lib": ["esnext", "dom", "dom.iterable"],
     "types": ["node"],
 
     "sourceMap": true,
@@ -11,7 +12,6 @@
     "declarationMap": true,
 
     "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
 
     "strict": true,
     "jsx": "react-jsx",

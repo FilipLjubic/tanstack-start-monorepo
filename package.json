@@ -5,17 +5,18 @@
   "scripts": {
     "dev": "pnpm --filter @starter/web dev",
     "test": "vitest run",
-    "lint": "pnpm exec biome check --write"
+    "lint": "pnpm exec biome check --write",
+		"catalogify": "pnpx codemod pnpm/catalog"
   },
-  "author": "",
+  "author": "FilipLjubic",
   "license": "MIT",
   "workspaces": [
     "packages/*",
     "apps/*"
   ],
-  "packageManager": "pnpm@10.14.0",
+  "packageManager": "pnpm@10.26.0",
   "engines": {
-    "node": "22.18.0"
+    "node": ">=22.18.0"
   },
   "devDependencies": {
     "@biomejs/biome": "catalog:",
