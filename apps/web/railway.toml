@@ -1,0 +1,5 @@
+[build]
+watchPatterns = ["/apps/web/**", "/packages/**"]
+
+[deploy]
+startCommand = "pnpm --filter @starter/web start"
