@@ -5,7 +5,13 @@
  * Run manually with: pnpm --filter @starter/backend seed
  */
 
-import 'dotenv/config';
+import { config } from 'dotenv';
+
+// Load env: try local first, then web app
+config();
+if (!process.env.DATABASE_URL) {
+  config({ path: '../../apps/web/.env' });
+}
 // import { db } from './db.ts';
 // import { user } from './schema.ts';
 

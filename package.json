@@ -1,12 +1,12 @@
 {
-  "name": "tanstack-monorepo-starter",
+  "name": "tanstack-start-monorepo",
   "version": "1.0.0",
-  "description": "TanStack monorepo starter with TanStack Start, Better Auth, Drizzle, and Railway deployment",
+  "description": "TanStack Start monorepo with Better Auth, Drizzle, and Railway deployment",
   "scripts": {
     "dev": "pnpm --filter @starter/web dev",
     "test": "vitest run",
     "lint": "pnpm exec biome check --write",
-		"catalogify": "pnpx codemod pnpm/catalog"
+    "catalogify": "pnpx codemod pnpm/catalog"
   },
   "author": "FilipLjubic",
   "license": "MIT",

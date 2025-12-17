@@ -1,4 +1,4 @@
-## TanStack Monorepo Starter
+## TanStack Start Monorepo
 
 ---
 ### Repository Layout (High Level)

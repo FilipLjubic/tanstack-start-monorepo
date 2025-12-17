@@ -1,9 +1,13 @@
 import { config } from 'dotenv';
 import { defineConfig } from 'drizzle-kit';
 
-// Only load .env if DATABASE_URL not already set (allows .env.prod override via shell)
+// Load .env if DATABASE_URL not already set
+// Tries: local .env first (for db commands), then falls back to web app's .env
 if (!process.env.DATABASE_URL) {
-  config();
+  config(); // ./packages/backend/.env
+  if (!process.env.DATABASE_URL) {
+    config({ path: '../../apps/web/.env' }); // fallback to web app env
+  }
 }
 
 const databaseUrl = process.env.DATABASE_URL;

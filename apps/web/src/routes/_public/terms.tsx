@@ -1,3 +1,13 @@
+/**
+ * CUSTOMIZE: Replace this placeholder terms of service with your own
+ *
+ * This is a template with common sections. You should:
+ * - Update the content to match your actual service terms
+ * - Add your company/product name
+ * - Update the contact email
+ * - Consider consulting a lawyer for compliance
+ */
+
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowLeft } from 'lucide-react';
 

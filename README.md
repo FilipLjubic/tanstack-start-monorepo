@@ -1,4 +1,4 @@
-# TanStack Monorepo Starter
+# TanStack Start Monorepo
 
 A production-ready monorepo starter template with TanStack Start, Better Auth, Drizzle ORM, Supabase, and Railway deployment.
 
@@ -37,8 +37,8 @@ packages/
 
 1. Clone the repository:
 ```bash
-git clone <your-repo-url>
-cd tanstack-monorepo-starter
+git clone https://github.com/FilipLjubic/tanstack-start-monorepo.git
+cd tanstack-start-monorepo
 ```
 
 2. Install dependencies:
@@ -46,11 +46,12 @@ cd tanstack-monorepo-starter
 pnpm install
 ```
 
-3. Copy environment files:
+3. Copy environment file:
 ```bash
 cp apps/web/env.example apps/web/.env
-cp packages/backend/env.example packages/backend/.env
 ```
+
+> **Note**: `packages/backend/.env` is optional - only needed if you run drizzle commands directly from that directory. The drizzle config falls back to `apps/web/.env`.
 
 4. Start local Supabase:
 ```bash

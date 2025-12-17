@@ -33,7 +33,7 @@ const LandingPage = () => {
       <main className="flex flex-1 flex-col items-center justify-center gap-8 px-4 py-16">
         <div className="flex flex-col items-center gap-4 text-center">
           <h1 className="font-bold font-display text-4xl tracking-tight sm:text-5xl">
-            TanStack Monorepo Starter
+            TanStack Start Monorepo
           </h1>
           <p className="max-w-2xl text-lg text-muted-foreground">
             A production-ready starter template with TanStack Start, Better
@@ -58,7 +58,7 @@ const LandingPage = () => {
             asChild
           >
             <a
-              href="https://github.com"
+              href="https://github.com/FilipLjubic/tanstack-start-monorepo"
               target="_blank"
               rel="noopener noreferrer"
             >
