@@ -4,7 +4,7 @@ import postgres from 'postgres';
 import * as schema from './schema.ts';
 
 if (!process.env.DATABASE_URL) {
-  throw 'Missing DATABASE_URL';
+  throw 'Missing DATABASE_URL, run pnpm --filter @starter/backend db:start or get the connection string';
 }
 
 const client = postgres(process.env.DATABASE_URL);
