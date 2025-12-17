@@ -1,8 +1,10 @@
 [build]
-buildCommand = "pnpm --filter @starter/web build"
+builder = "DOCKERFILE"
+dockerfilePath = "../../Dockerfile"
 watchPatterns = ["/apps/web/**", "/packages/**"]
 
 [deploy]
-startCommand = "pnpm --filter @starter/web start"
 healthcheckPath = "/"
 healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 5
