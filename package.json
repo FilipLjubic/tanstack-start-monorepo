@@ -6,7 +6,8 @@
     "dev": "pnpm --filter @starter/web dev",
     "test": "vitest run",
     "lint": "pnpm exec biome check --write",
-    "catalogify": "pnpx codemod pnpm/catalog"
+    "catalogify": "pnpx codemod pnpm/catalog",
+    "supabase": "pnpm --filter @starter/backend exec supabase"
   },
   "author": "FilipLjubic",
   "license": "MIT",

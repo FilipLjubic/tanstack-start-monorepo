@@ -58,6 +58,8 @@ cp apps/web/env.example apps/web/.env
 pnpm --filter @starter/backend db:start
 ```
 
+> **Note**: To run Supabase CLI directly from root, use `pnpm supabase <command>` (e.g., `pnpm supabase status`). This ensures Supabase files stay in `packages/backend/supabase`.
+
 5. Run database migrations:
 ```bash
 pnpm --filter @starter/backend db:push
