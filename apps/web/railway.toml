@@ -1,5 +1,8 @@
 [build]
+buildCommand = "pnpm --filter @starter/web build"
 watchPatterns = ["/apps/web/**", "/packages/**"]
 
 [deploy]
 startCommand = "pnpm --filter @starter/web start"
+healthcheckPath = "/"
+healthcheckTimeout = 60
