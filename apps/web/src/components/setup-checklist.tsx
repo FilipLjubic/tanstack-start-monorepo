@@ -14,19 +14,13 @@ import {
   CardTitle,
 } from '@starter/ui/components/shadcn/card';
 import { CheckCircle2, Circle, ExternalLink } from 'lucide-react';
-
-type SetupStatus = {
-  database: boolean;
-  googleAuth: boolean;
-  authSecret: boolean;
-  allComplete: boolean;
-};
+import type { SetupStatus } from '@/server/setup/status';
 
 const StatusIcon = ({ done }: { done: boolean }) =>
   done ? (
-    <CheckCircle2 className="h-5 w-5 text-green-500" />
+    <CheckCircle2 className="h-5 w-5 shrink-0 text-green-500" />
   ) : (
-    <Circle className="h-5 w-5 text-muted-foreground" />
+    <Circle className="h-5 w-5 shrink-0 text-muted-foreground" />
   );
 
 const SetupStep = ({
@@ -50,12 +44,16 @@ const SetupStep = ({
         <p className="text-muted-foreground text-sm">{description}</p>
       </div>
       {!done && children && (
-        <div className="rounded-md bg-muted/50 p-3 font-mono text-sm">
-          {children}
-        </div>
+        <div className="rounded-md bg-muted/50 p-3 text-sm">{children}</div>
       )}
     </div>
   </div>
+);
+
+const Code = ({ children }: { children: React.ReactNode }) => (
+  <code className="block rounded bg-background/80 px-2 py-1 font-mono text-xs">
+    {children}
+  </code>
 );
 
 const Confetti = ({ delay, color }: { delay: string; color: string }) => (
@@ -106,7 +104,7 @@ const confettiColors = [
   '#f97316',
 ];
 
-const SetupComplete = () => (
+const SetupComplete = ({ isProduction }: { isProduction: boolean }) => (
   <div className="relative mx-auto w-full max-w-lg">
     <style>
       {`
@@ -194,8 +192,9 @@ const SetupComplete = () => (
             You did it!
           </h3>
           <p className="mx-auto max-w-xs text-balance text-muted-foreground leading-relaxed">
-            Everything is configured and your app is ready to launch. Time to
-            build something great.
+            {isProduction
+              ? 'Your production deployment is fully configured and ready to go.'
+              : 'Everything is configured and your app is ready to launch. Time to build something great.'}
           </p>
         </div>
 
@@ -206,7 +205,7 @@ const SetupComplete = () => (
             <div className="h-2.5 w-2.5 rounded-full border-2 border-emerald-50 bg-emerald-500 dark:border-emerald-950" />
           </div>
           <span className="font-medium text-emerald-700 text-sm dark:text-emerald-300">
-            All 3 checks passed
+            All checks passed
           </span>
         </div>
       </div>
@@ -214,68 +213,56 @@ const SetupComplete = () => (
   </div>
 );
 
-export const SetupChecklist = ({ status }: { status: SetupStatus }) => {
-  if (status.allComplete) {
-    return <SetupComplete />;
-  }
+const LocalSetupChecklist = ({ status }: { status: SetupStatus }) => {
+  const completedCount = [
+    status.database.connected && status.database.migrated,
+    status.googleAuth,
+  ].filter(Boolean).length;
 
   return (
     <Card className="mx-auto max-w-2xl">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle>Setup Checklist</CardTitle>
-          <Badge variant="outline">
-            {
-              [status.database, status.googleAuth, status.authSecret].filter(
-                Boolean
-              ).length
-            }
-            /3
-          </Badge>
+          <CardTitle>Local Development Setup</CardTitle>
+          <Badge variant="outline">{completedCount}/2</Badge>
         </div>
         <CardDescription>
-          Complete these steps to get your app running.
+          Complete these steps to run the app locally.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <SetupStep
-          title="1. Database Connection"
-          description="Connect to PostgreSQL via Supabase or direct connection."
-          done={status.database}
+          title="1. Database"
+          description="Start local Supabase and run migrations."
+          done={status.database.connected && status.database.migrated}
         >
-          <div className="space-y-2">
-            <p className="text-muted-foreground">For local development:</p>
-            <code>cd packages/backend && pnpm supabase start</code>
-            <p className="mt-2 text-muted-foreground">
-              Then reset and seed the database:
-            </p>
-            <code>pnpm --filter @starter/backend db:reset</code>
+          <div className="space-y-3">
+            {!status.database.connected ? (
+              <>
+                <p className="text-muted-foreground">
+                  Start local Supabase (requires Docker):
+                </p>
+                <Code>pnpm --filter @starter/backend db:start</Code>
+              </>
+            ) : (
+              <>
+                <p className="text-muted-foreground">
+                  Database connected. Run migrations and seed:
+                </p>
+                <Code>pnpm --filter @starter/backend db:reset</Code>
+              </>
+            )}
           </div>
         </SetupStep>
 
         <SetupStep
-          title="2. Auth Secret"
-          description="Set a secure secret for session encryption."
-          done={status.authSecret}
-        >
-          <div className="space-y-2">
-            <p className="text-muted-foreground">Generate a secure secret:</p>
-            <code>openssl rand -base64 32</code>
-            <p className="mt-2 text-muted-foreground">
-              Add to your .env files:
-            </p>
-            <code>BETTER_AUTH_SECRET=your-generated-secret</code>
-          </div>
-        </SetupStep>
-
-        <SetupStep
-          title="3. Google OAuth (Optional)"
-          description="Enable Google sign-in for your users."
+          title="2. Google OAuth"
+          description="Enable Google sign-in for authentication."
           done={status.googleAuth}
         >
-          <div className="space-y-2">
+          <div className="space-y-3">
             <p className="text-muted-foreground">
-              Create credentials in Google Cloud Console:
+              1. Create OAuth credentials:
             </p>
             <a
               href="https://console.cloud.google.com/apis/credentials"
@@ -285,17 +272,24 @@ export const SetupChecklist = ({ status }: { status: SetupStatus }) => {
             >
               Google Cloud Console <ExternalLink className="h-3 w-3" />
             </a>
-            <p className="mt-2 text-muted-foreground">
-              Add to your .env files:
+            <p className="text-muted-foreground">
+              2. Configure OAuth consent screen
             </p>
-            <code>
-              GOOGLE_CLIENT_ID=...
+            <p className="text-muted-foreground">
+              3. Create OAuth 2.0 credentials (Web application)
+            </p>
+            <p className="text-muted-foreground">
+              4. Add authorized redirect URI:
+            </p>
+            <Code>http://localhost:3000/api/auth/callback/google</Code>
+            <p className="text-muted-foreground">5. Add to apps/web/.env:</p>
+            <Code>
+              GOOGLE_CLIENT_ID=your-client-id
               <br />
-              GOOGLE_CLIENT_SECRET=...
-            </code>
-            <p className="mt-2 text-muted-foreground text-xs">
-              You can add other providers (GitHub, Discord, etc.) in
-              packages/backend/src/auth.ts
+              GOOGLE_CLIENT_SECRET=your-client-secret
+            </Code>
+            <p className="text-muted-foreground text-xs">
+              Restart the dev server after updating .env
             </p>
           </div>
         </SetupStep>
@@ -312,4 +306,145 @@ export const SetupChecklist = ({ status }: { status: SetupStatus }) => {
       </CardContent>
     </Card>
   );
+};
+
+const ProductionSetupChecklist = ({ status }: { status: SetupStatus }) => {
+  const completedCount = [
+    status.database.connected && status.database.migrated,
+    status.googleAuth,
+  ].filter(Boolean).length;
+
+  return (
+    <Card className="mx-auto max-w-2xl">
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <CardTitle>Production Setup</CardTitle>
+          <Badge variant="outline">{completedCount}/2</Badge>
+        </div>
+        <CardDescription>
+          Complete these steps to get your Railway deployment working.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        <SetupStep
+          title="1. Database"
+          description="Connect to a PostgreSQL database and run migrations."
+          done={status.database.connected && status.database.migrated}
+        >
+          <div className="space-y-3">
+            {!status.database.connected ? (
+              <>
+                <p className="text-muted-foreground">
+                  Add DATABASE_URL in Railway variables. Options:
+                </p>
+                <ul className="list-disc space-y-1 pl-4 text-muted-foreground text-xs">
+                  <li>
+                    <a
+                      href="https://supabase.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Supabase
+                    </a>{' '}
+                    - Free tier, includes extras
+                  </li>
+                  <li>
+                    <a
+                      href="https://neon.tech"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary hover:underline"
+                    >
+                      Neon
+                    </a>{' '}
+                    - Serverless Postgres
+                  </li>
+                  <li>Railway Postgres - Add as service in project</li>
+                </ul>
+                <p className="text-muted-foreground">
+                  Then redeploy the service.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-muted-foreground">
+                  Database connected. Run migrations from your local machine:
+                </p>
+                <Code>
+                  # Create packages/backend/.env.prod with production
+                  DATABASE_URL
+                  <br />
+                  pnpm --filter @starter/backend db:migrate:prod
+                </Code>
+              </>
+            )}
+          </div>
+        </SetupStep>
+
+        <SetupStep
+          title="2. Google OAuth"
+          description="Enable Google sign-in for your users."
+          done={status.googleAuth}
+        >
+          <div className="space-y-3">
+            <p className="text-muted-foreground">
+              1. Create OAuth credentials:
+            </p>
+            <a
+              href="https://console.cloud.google.com/apis/credentials"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1 text-primary hover:underline"
+            >
+              Google Cloud Console <ExternalLink className="h-3 w-3" />
+            </a>
+            <p className="text-muted-foreground">
+              2. Configure OAuth consent screen
+            </p>
+            <p className="text-muted-foreground">
+              3. Create OAuth 2.0 credentials (Web application)
+            </p>
+            <p className="text-muted-foreground">
+              4. Add authorized redirect URI:
+            </p>
+            <Code>https://your-app.railway.app/api/auth/callback/google</Code>
+            <p className="text-muted-foreground">
+              5. Add to Railway variables:
+            </p>
+            <Code>
+              GOOGLE_CLIENT_ID=your-client-id
+              <br />
+              GOOGLE_CLIENT_SECRET=your-client-secret
+            </Code>
+            <p className="text-muted-foreground text-xs">
+              Railway will automatically redeploy with the new variables.
+            </p>
+          </div>
+        </SetupStep>
+
+        <div className="border-muted-foreground/20 border-t pt-4">
+          <p className="text-muted-foreground text-xs">
+            Once configured, delete{' '}
+            <code className="rounded bg-muted px-1">
+              apps/web/src/components/setup-checklist.tsx
+            </code>{' '}
+            and update the landing page.
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+export const SetupChecklist = ({ status }: { status: SetupStatus }) => {
+  if (status.allComplete) {
+    return <SetupComplete isProduction={status.isProduction} />;
+  }
+
+  if (status.isProduction) {
+    return <ProductionSetupChecklist status={status} />;
+  }
+
+  return <LocalSetupChecklist status={status} />;
 };
