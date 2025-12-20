@@ -9,12 +9,12 @@ WORKDIR /app
 # -----------------------------------------------------------
 FROM base AS deps
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
-COPY apps/web/package.json ./apps/web/
-COPY packages/backend/package.json ./packages/backend/
-COPY packages/logger/package.json ./packages/logger/
-COPY packages/ui/package.json ./packages/ui/
-COPY packages/tsconfig/package.json ./packages/tsconfig/
+COPY --link pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+COPY --link apps/web/package.json ./apps/web/
+COPY --link packages/backend/package.json ./packages/backend/
+COPY --link packages/logger/package.json ./packages/logger/
+COPY --link packages/ui/package.json ./packages/ui/
+COPY --link packages/tsconfig/package.json ./packages/tsconfig/
 
 RUN pnpm install --frozen-lockfile
 
@@ -23,24 +23,23 @@ RUN pnpm install --frozen-lockfile
 # -----------------------------------------------------------
 FROM deps AS build
 
-COPY . .
+COPY --link . .
 
 RUN pnpm --filter @starter/web build
 
 # -----------------------------------------------------------
 # Production stage - minimal runtime image
 # -----------------------------------------------------------
-FROM base AS production
+FROM gcr.io/distroless/nodejs22-debian12 AS production
 
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 
-COPY --from=build /app/apps/web/.output ./apps/web/.output
-COPY --from=build /app/apps/web/package.json ./apps/web/
-COPY --from=build /app/package.json ./
-COPY --from=build /app/pnpm-workspace.yaml ./
+WORKDIR /app
+
+COPY --link --from=build /app/apps/web/.output ./apps/web/.output
 
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "@starter/web", "start"]
+CMD ["./apps/web/.output/server/index.mjs"]
