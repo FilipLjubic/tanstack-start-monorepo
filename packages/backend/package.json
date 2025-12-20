@@ -23,7 +23,6 @@
     "typecheck": "tsc"
   },
   "devDependencies": {
-    "@better-auth/cli": "catalog:",
     "@starter/tsconfig": "workspace:*",
     "@types/node": "catalog:",
     "drizzle-kit": "catalog:"

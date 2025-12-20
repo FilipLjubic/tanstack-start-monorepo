@@ -5,7 +5,6 @@ onlyBuiltDependencies:
   - "@tailwindcss/oxide"
   - esbuild
 catalog:
-  "@better-auth/cli": 1.4.7
   "@internationalized/date": 3.10.0
   embla-carousel-react: 8.6.0
   "@biomejs/biome": 2.3.9

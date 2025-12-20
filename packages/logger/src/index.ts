@@ -1,11 +1,15 @@
 import { randomBytes } from 'node:crypto';
-import { type Logger, pino } from 'pino';
+import pino, { type Logger } from 'pino';
 
 const isDev = process.env.NODE_ENV === 'development';
 
 const logger = isDev
   ? pino({
       level: process.env.LOG_LEVEL || 'info',
+      serializers: {
+        err: pino.stdSerializers.err,
+        error: pino.stdSerializers.err,
+      },
       transport: {
         target: 'pino-pretty',
         options: {
@@ -17,6 +21,10 @@ const logger = isDev
     })
   : pino({
       level: process.env.LOG_LEVEL || 'info',
+      serializers: {
+        err: pino.stdSerializers.err,
+        error: pino.stdSerializers.err,
+      },
     });
 
 export default logger;
