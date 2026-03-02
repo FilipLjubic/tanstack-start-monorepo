@@ -13,8 +13,8 @@ export default defineConfig({
   },
   plugins: [
     devtools(),
-    tsConfigPaths(),
     tanstackStart(),
+    tsConfigPaths(),
     nitro({}),
     viteReact({
       babel: {

@@ -94,3 +94,5 @@ apps/*/node_modules/
 .tanstack/
 .nitro/
 .output
+
+docs/upgrade-notes/

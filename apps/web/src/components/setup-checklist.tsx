@@ -240,9 +240,9 @@ const LocalSetupChecklist = ({ status }: { status: SetupStatus }) => {
             {!status.database.connected ? (
               <>
                 <p className="text-muted-foreground">
-                  Start local Supabase (requires Docker):
+                  Start local Supabase, run migrations, and seed (requires Docker):
                 </p>
-                <Code>pnpm --filter @starter/backend db:start</Code>
+                <Code>pnpm supabase start && pnpm --filter @starter/backend db:reset</Code>
               </>
             ) : (
               <>
