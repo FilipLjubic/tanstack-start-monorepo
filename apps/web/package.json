@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "module",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=22.18.0"
   },
   "scripts": {
     "dev": "vite dev",
@@ -18,6 +18,7 @@
     "@supabase/supabase-js": "catalog:",
     "@tailwindcss/vite": "catalog:",
     "@tanstack/devtools-vite": "catalog:",
+    "@tanstack/query-core": "catalog:",
     "@tanstack/react-devtools": "catalog:",
     "@tanstack/react-form": "catalog:",
     "@tanstack/react-query": "catalog:",
@@ -25,6 +26,7 @@
     "@tanstack/react-router-ssr-query": "catalog:",
     "@tanstack/react-start": "catalog:",
     "@tanstack/react-table": "catalog:",
+    "@tanstack/router-core": "catalog:",
     "better-auth": "catalog:",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
@@ -43,19 +45,20 @@
     "zod": "catalog:"
   },
   "devDependencies": {
+    "@babel/core": "catalog:",
+    "@rolldown/plugin-babel": "catalog:",
     "@starter/tsconfig": "workspace:*",
     "@tanstack/react-query-devtools": "catalog:",
     "@tanstack/react-router-ssr-query": "catalog:",
+    "@types/babel__core": "catalog:",
     "@types/lodash-es": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "@vitejs/plugin-react-oxc": "catalog:",
     "babel-plugin-react-compiler": "catalog:",
     "nitro": "catalog:",
     "tw-animate-css": "catalog:",
-    "typescript": "catalog:",
-    "vite-tsconfig-paths": "catalog:"
+    "typescript": "catalog:"
   }
 }
